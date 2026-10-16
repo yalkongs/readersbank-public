@@ -1,0 +1,774 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e7e5e4;
+  --accent: #b45309;
+  --summary-bg: #faf7f2;
+  font-family: "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", system-ui, -apple-system, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111111;
+    --fg: #ececec;
+    --muted: #a3a3a3;
+    --line: #2a2a2a;
+    --accent: #f59e0b;
+    --summary-bg: #1b1916;
+  }
+}
+
+:root {
+  color-scheme: light dark;
+}
+/* 읽기 설정에서 배경을 직접 고르면 입력 요소·스크롤바도 그 밝기를 따른다. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111111;
+  --fg: #ececec;
+  --muted: #a3a3a3;
+  --line: #2a2a2a;
+  --accent: #f59e0b;
+  --summary-bg: #1b1916;
+}
+
+html[data-bg="white"] {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+}
+html[data-bg="sepia"] {
+  --bg: #f6efe1;
+  --fg: #3b3127;
+  --muted: #7a6a58;
+  --line: #e3d7c1;
+  --summary-bg: #efe5d1;
+}
+html[data-bg="gray"] {
+  --bg: #e9e9e7;
+  --fg: #222222;
+  --muted: #5f5f5f;
+  --line: #d2d2cf;
+  --summary-bg: #dfdfdc;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+/* 긴 영어 제목·URL처럼 띄어 쓸 곳 없는 낱말이 화면 밖으로 넘치지 않게 줄을 바꾼다. */
+body {
+  overflow-wrap: break-word;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+.prose-ko {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+@media (min-width: 768px) {
+  .prose-ko {
+    font-size: 1.125rem;
+  }
+}
+html[data-size="1"] .prose-ko {
+  font-size: 15px;
+}
+html[data-size="2"] .prose-ko {
+  font-size: 16px;
+}
+html[data-size="4"] .prose-ko {
+  font-size: 19px;
+}
+html[data-size="5"] .prose-ko {
+  font-size: 21px;
+}
+html[data-leading="tight"] .prose-ko {
+  line-height: 1.55;
+}
+html[data-leading="loose"] .prose-ko {
+  line-height: 2;
+}
+html[data-font="serif"] .prose-ko,
+html[data-font="serif"] .article-title {
+  font-family: var(--font-noto-serif-kr), "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", serif;
+}
+.prose-ko > * + * {
+  margin-top: 1.1em;
+}
+.prose-ko p {
+  white-space: pre-line;
+}
+.prose-ko h2 {
+  margin-top: 2em;
+  font-size: 1.4em;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.prose-ko h3 {
+  margin-top: 1.6em;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+.prose-ko h4 {
+  margin-top: 1.4em;
+  font-weight: 700;
+}
+.prose-ko a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-ko blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1em;
+  color: var(--muted);
+}
+.prose-ko ul {
+  list-style: disc;
+  padding-left: 1.4em;
+}
+.prose-ko li {
+  white-space: pre-line;
+}
+.prose-ko ol {
+  list-style: decimal;
+  padding-left: 1.4em;
+}
+.prose-ko pre {
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--summary-bg);
+  padding: 1em;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+.prose-ko figure {
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+}
+@media (min-width: 768px) {
+  .prose-ko figure {
+    margin-left: -3rem;
+    margin-right: -3rem;
+  }
+}
+.prose-ko figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.prose-ko figcaption {
+  margin-top: 0.5em;
+  padding: 0 1.25rem;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.prose-ko .table-wrap {
+  overflow-x: auto;
+}
+.prose-ko table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.prose-ko td {
+  border: 1px solid var(--line);
+  padding: 0.4em 0.6em;
+}
+.prose-ko hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 2.5em 0;
+}
+.untranslated {
+  border-left: 3px dashed var(--muted);
+  padding-left: 0.75em;
+}
+.untranslated-badge {
+  display: inline-block;
+  margin-bottom: 0.25em;
+  font-size: 0.75em;
+  color: var(--muted);
+}
+.view-toggle {
+  display: inline-flex;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+}
+.view-toggle button {
+  position: relative;
+  border-radius: 999px;
+  padding: 0.3em 0.9em;
+  font-size: 0.9rem;
+}
+/* 보이는 크기는 그대로 두고 누르는 영역만 44px로 넓힌다. */
+.view-toggle button::after {
+  content: "";
+  position: absolute;
+  inset: -0.4rem 0;
+}
+.view-toggle button[aria-pressed="true"] {
+  background: var(--fg);
+  color: var(--bg);
+}
+.toc {
+  margin-bottom: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+.toc summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.toc ul {
+  margin-top: 0.5rem;
+  line-height: 1.8;
+}
+.toc li[data-level="3"] {
+  padding-left: 1rem;
+}
+.toc li[data-level="4"] {
+  padding-left: 2rem;
+}
+.figure-zoom {
+  display: block;
+  width: 100%;
+  cursor: zoom-in;
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.85);
+  padding: 1rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.lightbox figure {
+  max-width: 100%;
+  max-height: 100%;
+  color: #fff;
+  text-align: center;
+}
+.lightbox img {
+  max-width: 100%;
+  max-height: 85dvh;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.lightbox-close {
+  position: absolute;
+  top: calc(1rem + env(safe-area-inset-top));
+  right: calc(1rem + env(safe-area-inset-right));
+  border-radius: 999px;
+  background: #fff;
+  color: #000;
+  padding: 0.4em 1em;
+}
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  height: 2px;
+}
+.reading-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.speaking {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 4px;
+}
+
+/* 수식(KaTeX): 블록 수식은 가운데 정렬하고 넓으면 가로로 스크롤한다. */
+.math-display {
+  display: block;
+  margin: 1em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.math-display .katex-display { margin: 0; }
+.katex { font-size: 1.05em; }
+
+/* 글 목록 보기 방식: 목록(기본) / 썸네일(html[data-view="grid"]). ViewToggle이 바꾼다. */
+html[data-view="grid"] .rb-list-only,
+html:not([data-view="grid"]) .rb-grid-only {
+  display: none;
+}
+html[data-view="grid"] .rb-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 0.875rem;
+}
+@media (min-width: 640px) {
+  html[data-view="grid"] .rb-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  html[data-view="grid"] .rb-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  html[data-view="grid"] .rb-cards {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+html[data-view="grid"] .rb-cards.mt-8 {
+  margin-top: 1.25rem;
+}
+html[data-view="grid"] .rb-cards .rb-card-lead,
+html[data-view="grid"] .rb-cards .rb-quote-deco {
+  display: none;
+}
+html[data-view="grid"] .rb-cards .rb-card-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+html[data-view="grid"] .rb-cards .rb-quote-text {
+  font-size: 0.75rem;
+}
+html[data-view="grid"] .rb-cards .t-card-cover > div {
+  padding: 0.75rem;
+}
+
+/* 읽는 동안 헤더 숨기기(AutoHideHeader). 메뉴가 열려 있거나 포커스가 있으면 그대로 둔다. */
+.rb-header {
+  border-bottom-color: transparent;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease-out;
+}
+/* 맨 위에서는 헤더와 본문이 한 면으로 이어지고, 글이 헤더 밑으로 지나갈 때만 선을 긋는다. */
+.rb-header[data-scrolled] {
+  border-bottom-color: var(--line);
+}
+.rb-header[data-hidden]:not(:has([aria-expanded="true"])):not(:has(:focus-visible)) {
+  transform: translateY(-100%);
+}
+/* 새 글 버튼: 헤더와 같은 때에 화면 아래로 숨는다. 포커스가 있으면 그대로 둔다. */
+.rb-fab {
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    translate 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    scale 320ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 200ms ease-out;
+}
+/* 누르면 유리가 탄력 있게 부풀고 밝아진다(iOS 유리 버튼의 반응). */
+@media (hover: hover) and (pointer: fine) {
+  .rb-fab:hover {
+    scale: 1.04;
+  }
+}
+.rb-fab:active {
+  scale: 1.1;
+  background-color: var(--lg-fill-press);
+  transition-duration: 240ms, 160ms, 120ms;
+}
+.rb-fab[data-hidden]:not(:focus-visible) {
+  translate: 0 calc(100% + 1.5rem + env(safe-area-inset-bottom));
+}
+@media (prefers-reduced-motion: reduce) {
+  .rb-header,
+  .rb-fab {
+    transition: none;
+  }
+}
+
+/* 휴대폰 앱처럼: 버튼을 길게 눌러도 글자가 선택되지 않고, 두 번 탭 확대 대기 없이 바로 반응하며,
+   누르는 동안 살짝 흐려져 눌렸음을 알린다. */
+button,
+[role="button"],
+summary {
+  -webkit-user-select: none;
+  user-select: none;
+}
+a,
+button,
+[role="button"],
+summary,
+select,
+label {
+  touch-action: manipulation;
+}
+button:not(:disabled):active,
+[role="button"]:active,
+summary:active {
+  opacity: 0.7;
+}
+/* 표지 그림을 불러오지 못해도 빈 칸 대신 차분한 바탕이 보인다. */
+.t-card-cover {
+  position: relative;
+  background: var(--summary-bg);
+}
+/* 흰 바탕 그림도 카드 틀이 보이도록 아주 옅은 안쪽 테두리를 두른다(확대 효과와 함께 움직이지 않게 위에 얹는다). */
+.t-card-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 8%, transparent);
+  pointer-events: none;
+}
+
+/* 한국어 제목은 낱말 중간에서 줄을 바꾸지 않는다. 아주 긴 영문·주소만 필요할 때 끊는다. */
+.rb-title,
+.article-title,
+.prose-ko :is(h2, h3, h4) {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Liquid Glass(새 글 등록 버튼, iOS 26 방식): 색을 입히지 않은 유리(Regular). 뒤의 글이 흐리고 밝게 비치되
+   어떤 그림 위에서도 아이콘이 읽히도록 서리를 조금 머금는다.
+   가장자리는 빛을 모아 위·왼쪽과 아래·오른쪽에 반사광이 맺힌다. 아이콘은 유리 위의 기본 글자색으로 둔다.
+   누르면 유리가 살짝 부풀며 밝아진다. */
+.rb-glass {
+  --lg-fill: rgb(255 255 255 / 0.5);
+  --lg-fill-press: rgb(255 255 255 / 0.7);
+  --lg-hairline: rgb(255 255 255 / 0.55);
+  --lg-top: rgb(255 255 255 / 0.95);
+  --lg-bottom: rgb(255 255 255 / 0.45);
+  --lg-glow: rgb(255 255 255 / 0.5);
+  --lg-ring-a: rgb(255 255 255 / 0.95);
+  --lg-ring-b: rgb(255 255 255 / 0.7);
+  --lg-ring-mid: rgb(255 255 255 / 0.08);
+  --lg-outline: rgb(0 0 0 / 0.07);
+  --lg-shadow: rgb(0 0 0 / 0.14);
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--fg);
+  background: var(--lg-fill);
+  -webkit-backdrop-filter: blur(12px) saturate(190%) brightness(1.08);
+  backdrop-filter: blur(12px) saturate(190%) brightness(1.08);
+  box-shadow:
+    inset 0 0 0 0.5px var(--lg-hairline),
+    inset 0 1.5px 1px -0.5px var(--lg-top),
+    inset 0 -1px 1px -0.5px var(--lg-bottom),
+    inset 0 -12px 18px -14px var(--lg-glow),
+    0 0 0 0.5px var(--lg-outline),
+    0 8px 24px -4px var(--lg-shadow),
+    0 1px 3px rgb(0 0 0 / 0.06);
+}
+/* 가장자리 반사광: 대각선 그라데이션을 1px 고리 모양으로만 보이게 한다. */
+.rb-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    var(--lg-ring-a) 0%,
+    var(--lg-ring-mid) 38%,
+    transparent 50%,
+    var(--lg-ring-mid) 62%,
+    var(--lg-ring-b) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* 위쪽의 은은한 광택. */
+.rb-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(90% 55% at 50% 0%, rgb(255 255 255 / 0.3), transparent 70%);
+  pointer-events: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .rb-glass {
+    --lg-fill: rgb(30 30 32 / 0.55);
+    --lg-fill-press: rgb(60 60 64 / 0.65);
+    --lg-hairline: rgb(255 255 255 / 0.18);
+    --lg-top: rgb(255 255 255 / 0.4);
+    --lg-bottom: rgb(255 255 255 / 0.14);
+    --lg-glow: rgb(255 255 255 / 0.12);
+    --lg-ring-a: rgb(255 255 255 / 0.5);
+    --lg-ring-b: rgb(255 255 255 / 0.3);
+    --lg-ring-mid: rgb(255 255 255 / 0.04);
+    --lg-outline: rgb(0 0 0 / 0.4);
+    --lg-shadow: rgb(0 0 0 / 0.5);
+  }
+  :root:not([data-theme="light"]) .rb-glass::after {
+    background: radial-gradient(90% 55% at 50% 0%, rgb(255 255 255 / 0.08), transparent 70%);
+  }
+}
+:root[data-theme="dark"] .rb-glass {
+  --lg-fill: rgb(30 30 32 / 0.55);
+  --lg-fill-press: rgb(60 60 64 / 0.65);
+  --lg-hairline: rgb(255 255 255 / 0.18);
+  --lg-top: rgb(255 255 255 / 0.4);
+  --lg-bottom: rgb(255 255 255 / 0.14);
+  --lg-glow: rgb(255 255 255 / 0.12);
+  --lg-ring-a: rgb(255 255 255 / 0.5);
+  --lg-ring-b: rgb(255 255 255 / 0.3);
+  --lg-ring-mid: rgb(255 255 255 / 0.04);
+  --lg-outline: rgb(0 0 0 / 0.4);
+  --lg-shadow: rgb(0 0 0 / 0.5);
+}
+:root[data-theme="dark"] .rb-glass::after {
+  background: radial-gradient(90% 55% at 50% 0%, rgb(255 255 255 / 0.08), transparent 70%);
+}
+/* 유리 효과를 못 그리거나 투명도 줄이기를 켠 기기에서는 불투명한 바탕으로 둔다. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .rb-glass {
+    background: color-mix(in srgb, var(--fg) 6%, var(--bg));
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .rb-glass {
+    background: color-mix(in srgb, var(--fg) 6%, var(--bg));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* 소개 페이지. 배경의 가는 물결선들은 끝없이 흘러가고, 문장 아래 강조색 한 줄만 그려진 뒤 멈춰 남는다
+   ("흘려버리지 않고 붙잡고"). 동작 줄이기 설정에서는 모두 멈춘 그림으로 보인다. */
+
+.rb-about-stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  min-height: calc(100dvh - 3.5rem - env(safe-area-inset-top));
+  align-items: center;
+}
+
+.rb-about-stream {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  color: var(--fg);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.rb-about-flow {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  animation: rb-about-drift linear infinite;
+}
+
+@keyframes rb-about-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-600px);
+  }
+}
+
+/* 붙잡은 한 줄: 문장 바로 아래에서 왼쪽부터 그려진 뒤 그대로 남는다. 폭에 맞춰 늘어나도 굵기는 같다. */
+.rb-about-thread {
+  display: block;
+  width: 100%;
+  height: 2.75rem;
+  margin-top: 1.75rem;
+  overflow: visible;
+  clip-path: inset(-20% 100% -20% 0);
+  animation: rb-about-hold 2400ms cubic-bezier(0.22, 1, 0.36, 1) 700ms forwards;
+}
+.rb-about-thread path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+@keyframes rb-about-hold {
+  to {
+    clip-path: inset(-20% 0 -20% 0);
+  }
+}
+
+.rb-about-copy {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 64rem;
+  padding: 4rem 1.25rem 5rem;
+}
+
+.rb-about-eyebrow {
+  margin-bottom: 2.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.rb-about-statement {
+  font-family: var(--font-noto-serif-kr), "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", serif;
+  font-size: clamp(2.1rem, 6.4vw, 4.25rem);
+  font-weight: 400;
+  line-height: 1.38;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.rb-about-statement > span {
+  display: block;
+}
+
+/* 흘려보내는 말은 옅게, 붙잡는 말은 강조색으로. */
+.rb-about-fading {
+  color: var(--muted);
+}
+
+.rb-about-caught {
+  color: var(--accent);
+}
+
+.rb-about-signature {
+  margin-top: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-family: var(--font-noto-serif-kr), "Noto Serif KR", "AppleMyungjo", serif;
+  font-size: 1rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.rb-about-signature::before {
+  content: "";
+  width: 2.5rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.rb-about-home {
+  margin-top: 4rem;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 6px;
+  transition: text-decoration-color 200ms ease-out;
+}
+
+.rb-about-home:hover {
+  text-decoration-color: var(--accent);
+}
+
+@media (min-width: 768px) {
+  .rb-about-copy {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-about-flow {
+    animation: none;
+  }
+  .rb-about-thread {
+    animation: none;
+    clip-path: none;
+  }
+}
+
+/* 본문 속 유튜브 영상: 16:9 상자에 썸네일을 두고, 누르면 같은 자리에 플레이어를 띄운다. */
+.rb-video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #000;
+}
+.rb-video-frame iframe,
+.rb-video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.rb-video-poster {
+  display: block;
+  padding: 0;
+  cursor: pointer;
+  background: #000;
+}
+.prose-ko .rb-video-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+.rb-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.85;
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
+}
+.rb-video-poster:hover .rb-video-play,
+.rb-video-poster:focus-visible .rb-video-play {
+  opacity: 1;
+}
+.rb-video-poster:active .rb-video-play {
+  transform: translate(-50%, -50%) scale(0.96);
+}

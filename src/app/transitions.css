@@ -1,0 +1,206 @@
+/*
+ * 화면 전환 효과. 값과 스니펫은 Transitions.dev(https://transitions.dev, © Jakub Antalik,
+ * 개인·상업 프로젝트 사용 허용 라이선스)의 모션 토큰과 t-* 스니펫을 따른다.
+ * 모든 효과는 prefers-reduced-motion에서 꺼진다.
+ */
+
+:root {
+  /* 모션 토큰 */
+  --duration-stagger: 40ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-very-slow: 500ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Texts reveal */
+  /* 사이트 튜닝: 홈·글 화면마다 재생되므로 짧게(마지막 줄까지 약 0.6초) 두고,
+     여러 카드에 흐림을 걸면 Safari에서 무거워 흐림 없이 거리만 조금 키웠다. */
+  --stagger-dur: 420ms;
+  --stagger-distance: 16px;
+  --stagger-stagger: 45ms;
+  --stagger-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Menu dropdown */
+  /* 닫힘 시간은 usePresence(…, 150)·Lightbox의 해제 시간과 맞춘다. */
+  --dropdown-open-dur: 220ms;
+  --dropdown-close-dur: 150ms;
+  --dropdown-pre-scale: 0.95;
+  --dropdown-closing-scale: 0.99;
+  --dropdown-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Modal */
+  --modal-open-dur: 300ms;
+  --modal-close-dur: 150ms;
+  --modal-scale: 0.95;
+  --modal-scale-close: 0.94;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Icon swap */
+  --icon-swap-dur: 200ms;
+  --icon-swap-blur: 3px;
+  --icon-swap-start-scale: 0.6;
+  --icon-swap-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Texts reveal (페이지 진입) ──────────────────────────────
+   원래 스니펫은 .is-shown 클래스를 JS로 붙이는 transition이지만, 서버 렌더 글이
+   JS 로딩 전까지 보이지 않게 되므로 같은 토큰의 keyframes로 옮겨 CSS만으로 재생한다.
+   fill-mode는 backwards만 쓴다: 끝난 뒤에도 transform·filter가 남으면 안쪽의
+   position: fixed 요소(그림 확대, 읽기 진행 막대)의 기준이 바뀐다. */
+@keyframes t-stagger-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--stagger-distance));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.t-stagger-line {
+  animation: t-stagger-rise var(--stagger-dur) var(--stagger-ease) backwards;
+  animation-delay: calc(var(--stagger-stagger) * var(--stagger-i, 0));
+}
+.t-stagger-line--2 { --stagger-i: 1; }
+.t-stagger-line--3 { --stagger-i: 2; }
+.t-stagger-line--4 { --stagger-i: 3; }
+.t-stagger-line--5 { --stagger-i: 4; }
+.t-stagger-line--6 { --stagger-i: 5; }
+/* 여섯째 줄부터는 함께 떠올라 전체가 길어지지 않게 한다. */
+.t-stagger-line--7 { --stagger-i: 5; }
+.t-stagger-line--8 { --stagger-i: 5; }
+
+/* 본문 보기 전환(번역·원문): 본문 전체라 움직임·흐림 없이 짧게 비친다. */
+@keyframes t-swap-soft {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.t-swap-soft {
+  animation: t-swap-soft 200ms var(--ease-smooth-out) backwards;
+}
+
+/* ── 카드 손맛 ────────────────────────────────────────────────
+   누르면 살짝 눌리고(모든 기기), 마우스를 올리면 표지가 천천히 확대된다(호버 기기). */
+.t-card {
+  display: block;
+  transition: transform var(--duration-quick) var(--ease-smooth-out);
+}
+.t-card:active { transform: scale(0.98); }
+.t-card-cover { overflow: hidden; }
+.t-card-cover > img,
+.t-card-cover > div {
+  transition: transform 300ms var(--ease-smooth-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .t-card:hover .t-card-cover > img,
+  .t-card:hover .t-card-cover > div { transform: scale(1.04); }
+}
+
+/* ── Menu dropdown (읽기 설정 패널) ───────────────────────── */
+.t-dropdown {
+  transform-origin: top left;
+  transform: scale(var(--dropdown-pre-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dropdown-open-dur) var(--dropdown-ease),
+    opacity   var(--dropdown-open-dur) var(--dropdown-ease);
+  will-change: transform, opacity;
+}
+.t-dropdown[data-origin="top-right"]     { transform-origin: top right; }
+.t-dropdown[data-origin="top-center"]    { transform-origin: top center; }
+.t-dropdown[data-origin="bottom-left"]   { transform-origin: bottom left; }
+.t-dropdown[data-origin="bottom-center"] { transform-origin: bottom center; }
+.t-dropdown[data-origin="bottom-right"]  { transform-origin: bottom right; }
+
+.t-dropdown.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-dropdown.is-closing {
+  transform: scale(var(--dropdown-closing-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dropdown-close-dur) var(--dropdown-ease),
+    opacity   var(--dropdown-close-dur) var(--dropdown-ease);
+}
+
+/* ── Modal (그림 확대) ─────────────────────────────────────── */
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity   var(--modal-open-dur) var(--modal-ease);
+  will-change: transform, opacity;
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity   var(--modal-close-dur) var(--modal-ease);
+}
+/* 배경막은 크기 변화 없이 같은 시간으로 흐려지고 걷힌다. */
+.t-backdrop {
+  opacity: 0;
+  transition: opacity var(--modal-open-dur) var(--modal-ease);
+}
+.t-backdrop.is-open { opacity: 1; }
+.t-backdrop.is-closing {
+  opacity: 0;
+  transition: opacity var(--modal-close-dur) var(--modal-ease);
+}
+
+/* ── Icon swap (링크 복사 → 확인) ──────────────────────────── */
+.t-icon-swap {
+  position: relative;
+  display: inline-grid;
+}
+.t-icon-swap .t-icon {
+  grid-area: 1 / 1;
+  transition:
+    opacity   var(--icon-swap-dur) var(--icon-swap-ease),
+    filter    var(--icon-swap-dur) var(--icon-swap-ease),
+    transform var(--icon-swap-dur) var(--icon-swap-ease);
+  /* No will-change: it would freeze each icon's raster at its 0.25 start
+     scale, so a large icon scales up blurry and pixelated. */
+}
+.t-icon-swap[data-state="a"] .t-icon[data-icon="a"],
+.t-icon-swap[data-state="b"] .t-icon[data-icon="b"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+.t-icon-swap[data-state="a"] .t-icon[data-icon="b"],
+.t-icon-swap[data-state="b"] .t-icon[data-icon="a"] {
+  opacity: 0;
+  filter: blur(var(--icon-swap-blur));
+  transform: scale(var(--icon-swap-start-scale));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-stagger-line,
+  .t-swap-soft { animation: none !important; }
+  .t-card,
+  .t-card-cover > img,
+  .t-card-cover > div { transition: none !important; transform: none !important; }
+  .t-dropdown,
+  .t-modal,
+  .t-backdrop,
+  .t-icon-swap .t-icon { transition: none !important; }
+}

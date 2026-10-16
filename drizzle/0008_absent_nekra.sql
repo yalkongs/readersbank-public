@@ -1,0 +1,1 @@
+ALTER TABLE "articles" ADD COLUMN "cover_generated" boolean DEFAULT false NOT NULL;

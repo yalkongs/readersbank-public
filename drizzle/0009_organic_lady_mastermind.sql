@@ -1,0 +1,1 @@
+ALTER TABLE "articles" ADD COLUMN "cover_plan" jsonb;
