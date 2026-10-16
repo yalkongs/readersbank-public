@@ -1,6 +1,6 @@
 # ReadersBank
 
-외국어 글을 한국어 웹진 기사로 옮겨 모아 두는 개인용 리딩 뱅크입니다. 링크나 파일을 올리면 Claude가 글 전체 맥락을 보고 의역하고, 교정한 뒤 제목·한 줄 소개·요약·태그를 붙여 게시합니다. 글 등록과 관리는 소유자 한 명만 하고, 공개한 글은 누구나 읽을 수 있습니다.
+다양한 아이클을 옮겨 모아 두는 개인용 리딩 뱅크입니다. 링크나 파일을 올리면 Claude가 글 전체 맥락을 보고 의역하고, 교정한 뒤 제목·한 줄 소개·요약·태그를 붙여 게시합니다. 글 등록과 관리는 소유자 한 명만 하고, 공개한 글은 누구나 읽을 수 있습니다.
 
 A personal "reading bank" that turns foreign-language articles into Korean web-magazine posts with Claude. Self-host it on Vercel with your own API keys.
 
